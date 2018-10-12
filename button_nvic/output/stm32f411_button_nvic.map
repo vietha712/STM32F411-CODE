@@ -1,0 +1,220 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000000000000 0x0000000000080000 xr
+RAM              0x0000000020000000 0x0000000000020000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000000000000      0x410
+ *(.vectors)
+ .vectors       0x0000000000000000       0xc0 ./output/startup_ARMCM4.o
+                0x0000000000000000                __Vectors
+ *(.text*)
+ .text          0x00000000000000c0       0x48 ./output/main.o
+                0x00000000000000c0                EXTI0_IRQHandler
+                0x00000000000000f4                main
+ .text          0x0000000000000108      0x174 ./output/button_nvic.o
+                0x0000000000000108                led_init
+                0x0000000000000148                button_init
+                0x000000000000017c                EXTI_init
+                0x00000000000001f4                led_on
+                0x0000000000000218                led_off
+                0x000000000000023c                LED_toggle
+ .text          0x000000000000027c        0x8 ./output/startup_ARMCM4.o
+                0x000000000000027c                Reset_Handler
+                0x0000000000000280                DebugMon_Handler
+                0x0000000000000280                HardFault_Handler
+                0x0000000000000280                SysTick_Handler
+                0x0000000000000280                PVD_IRQHandler
+                0x0000000000000280                TAMP_STAMP_IRQHandler
+                0x0000000000000280                PendSV_Handler
+                0x0000000000000280                NMI_Handler
+                0x0000000000000280                UART1_IRQHandler
+                0x0000000000000280                FLEXRAY_IRQHandler
+                0x0000000000000280                UART0_IRQHandler
+                0x0000000000000280                UsageFault_Handler
+                0x0000000000000280                AACI_IRQHandler
+                0x0000000000000280                CAN_IRQHandler
+                0x0000000000000280                CHLCD_IRQHandler
+                0x0000000000000280                USBDC_IRQHandler
+                0x0000000000000280                USBHC_IRQHandler
+                0x0000000000000280                SPI_IRQHandler
+                0x0000000000000280                UART2_IRQHandler
+                0x0000000000000280                UART4_IRQHandler
+                0x0000000000000280                RCC_IRQHandler
+                0x0000000000000280                CLCD_IRQHandler
+                0x0000000000000280                RTC_WKUP_IRQHandler
+                0x0000000000000280                I2C_IRQHandler
+                0x0000000000000280                MemManage_Handler
+                0x0000000000000280                SVC_Handler
+                0x0000000000000280                WWDG_IRQHandler
+                0x0000000000000280                LIN_IRQHandler
+                0x0000000000000280                FLASH_IRQHandler
+                0x0000000000000280                CPU_CLCD_IRQHandler
+                0x0000000000000280                BusFault_Handler
+                0x0000000000000280                UART3_IRQHandler
+                0x0000000000000280                ENET_IRQHandler
+ .text          0x0000000000000284      0x18c /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+                0x000000000000033a                gpio_init
+                0x0000000000000394                output_set_reset
+                0x00000000000003e2                gpio_read_pin
+ *(.init)
+ *(.fini)
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ *(.eh_frame*)
+
+.glue_7         0x0000000000000410        0x0
+ .glue_7        0x0000000000000410        0x0 linker stubs
+
+.glue_7t        0x0000000000000410        0x0
+ .glue_7t       0x0000000000000410        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000000410        0x0
+ .vfp11_veneer  0x0000000000000410        0x0 linker stubs
+
+.v4_bx          0x0000000000000410        0x0
+ .v4_bx         0x0000000000000410        0x0 linker stubs
+
+.iplt           0x0000000000000410        0x0
+ .iplt          0x0000000000000410        0x0 ./output/main.o
+
+.rel.dyn        0x0000000000000410        0x0
+ .rel.iplt      0x0000000000000410        0x0 ./output/main.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x0000000000000410                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x0000000000000410                __exidx_end = .
+                0x0000000000000410                __etext = ALIGN (0x4)
+
+.data           0x0000000020000000        0x0 load address 0x0000000000000410
+                0x0000000020000000                __data_start__ = .
+ *(vtable)
+ *(.data*)
+ .data          0x0000000020000000        0x0 ./output/main.o
+ .data          0x0000000020000000        0x0 ./output/button_nvic.o
+ .data          0x0000000020000000        0x0 ./output/startup_ARMCM4.o
+ .data          0x0000000020000000        0x0 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+                0x0000000020000000                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                        PROVIDE (__preinit_array_end = .)
+                0x0000000020000000                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (__init_array_start = .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                [!provide]                        PROVIDE (__init_array_end = .)
+                0x0000000020000000                . = ALIGN (0x4)
+                [!provide]                        PROVIDE (__fini_array_start = .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array)
+                [!provide]                        PROVIDE (__fini_array_end = .)
+ *(.jcr*)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                __data_end__ = .
+
+.igot.plt       0x0000000020000000        0x0 load address 0x0000000000000410
+ .igot.plt      0x0000000020000000        0x0 ./output/main.o
+
+.bss            0x0000000020000000        0x0 load address 0x0000000000000410
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                __bss_start__ = .
+ *(.bss*)
+ .bss           0x0000000020000000        0x0 ./output/main.o
+ .bss           0x0000000020000000        0x0 ./output/button_nvic.o
+ .bss           0x0000000020000000        0x0 ./output/startup_ARMCM4.o
+ .bss           0x0000000020000000        0x0 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+ *(COMMON)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                __bss_end__ = .
+
+.heap           0x0000000020000000      0xc00
+                0x0000000020000000                __end__ = .
+                [!provide]                        PROVIDE (end = .)
+ *(.heap*)
+ .heap          0x0000000020000000      0xc00 ./output/startup_ARMCM4.o
+                0x0000000020000000                __HeapBase
+                0x0000000020000c00                __HeapLimit = .
+
+.stack_dummy    0x0000000020000000      0x400
+ *(.stack*)
+ .stack         0x0000000020000000      0x400 ./output/startup_ARMCM4.o
+                0x0000000020020000                __StackTop = (ORIGIN (RAM) + LENGTH (RAM))
+                0x000000002001fc00                __StackLimit = (__StackTop - SIZEOF (.stack_dummy))
+                [!provide]                        PROVIDE (__stack = __StackTop)
+                0x0000000000000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
+LOAD ./output/main.o
+LOAD ./output/button_nvic.o
+LOAD ./output/startup_ARMCM4.o
+LOAD /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+OUTPUT(./output/stm32f411_button_nvic.elf elf32-littlearm)
+
+.debug_info     0x0000000000000000      0x74b
+ .debug_info    0x0000000000000000      0x13d ./output/main.o
+ .debug_info    0x000000000000013d      0x294 ./output/button_nvic.o
+ .debug_info    0x00000000000003d1      0x37a /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.debug_abbrev   0x0000000000000000      0x317
+ .debug_abbrev  0x0000000000000000       0x93 ./output/main.o
+ .debug_abbrev  0x0000000000000093      0x132 ./output/button_nvic.o
+ .debug_abbrev  0x00000000000001c5      0x152 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.debug_aranges  0x0000000000000000       0x60
+ .debug_aranges
+                0x0000000000000000       0x20 ./output/main.o
+ .debug_aranges
+                0x0000000000000020       0x20 ./output/button_nvic.o
+ .debug_aranges
+                0x0000000000000040       0x20 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.debug_line     0x0000000000000000      0x412
+ .debug_line    0x0000000000000000      0x157 ./output/main.o
+ .debug_line    0x0000000000000157      0x178 ./output/button_nvic.o
+ .debug_line    0x00000000000002cf      0x143 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.debug_str      0x0000000000000000      0x2a3
+ .debug_str     0x0000000000000000      0x141 ./output/main.o
+                                        0x17e (size before relaxing)
+ .debug_str     0x0000000000000141       0xa4 ./output/button_nvic.o
+                                        0x21a (size before relaxing)
+ .debug_str     0x00000000000001e5       0xbe /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+                                        0x263 (size before relaxing)
+
+.comment        0x0000000000000000       0x7f
+ .comment       0x0000000000000000       0x7f ./output/main.o
+                                         0x80 (size before relaxing)
+ .comment       0x000000000000007f       0x80 ./output/button_nvic.o
+ .comment       0x000000000000007f       0x80 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.ARM.attributes
+                0x0000000000000000       0x31
+ .ARM.attributes
+                0x0000000000000000       0x33 ./output/main.o
+ .ARM.attributes
+                0x0000000000000033       0x33 ./output/button_nvic.o
+ .ARM.attributes
+                0x0000000000000066       0x1b ./output/startup_ARMCM4.o
+ .ARM.attributes
+                0x0000000000000081       0x33 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
+
+.debug_frame    0x0000000000000000      0x250
+ .debug_frame   0x0000000000000000       0x48 ./output/main.o
+ .debug_frame   0x0000000000000048       0xe4 ./output/button_nvic.o
+ .debug_frame   0x000000000000012c      0x124 /mnt/9E9AE62B9AE6001F/Workspace/GPIO_driver/Compiled/gpio_driver.o
